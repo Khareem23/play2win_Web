@@ -1,0 +1,48 @@
+<% layout('layouts/base') -%>
+  <div class="row">
+<div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>LatLongs</h2>
+                     <a class="btn btn-success pull-right" href="/admin/addlatlong">Add New</a>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                    <div class="table-responsive">
+                      <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                            <th class="column-title1">LatLong</th>
+                            <th class="column-title1 no-link last"><span class="nobr">Action</span>
+                            </th>
+                            <th class="bulk-action">
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <%
+                          if(latlongs.length >0){
+                           latlongs.forEach(function(latlong){ %>
+                          
+                          <tr class="even pointer">
+                            <td class="a-center ">
+                              <input type="checkbox" class="flat" name="table_records[]" value="<%=latlong.id%>">
+                            </td>
+                            <td class=" "><%=latlong.latlong%></td>
+                             <td><a href="/admin/getlatlong/<%=latlong.id%>"><i class="fa fa-edit"></i> Edit</a></td>
+                            <td class="last"><button type="button" class="btn btn-danger btn-xs del11" data-id="<%=latlong.id%>">Delete</button>
+                            </td>
+                          </tr>
+                          <% }) }%>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>

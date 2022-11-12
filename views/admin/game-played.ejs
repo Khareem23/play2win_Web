@@ -1,0 +1,55 @@
+<% layout('layouts/base') -%>
+  <div class="row">
+<div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Game Played Per Day</h2>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                    <div class="table-responsive">
+                        <p id="date_filter">
+                            <span id="date-label-from" class="date-label">From </span>:<input type="text" id="min" name="min" class="date_range_filter date">&nbsp;&nbsp;&nbsp;<span id="date-label-to" class="date-label">To </span>:<input type="text" id="max" name="max" class="date_range_filter date">
+                        </p>
+                      <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th>No. Of Games</th>
+                            <th>Ber Amount</th>
+                            <th>Winner</th>
+                            <th>Profit</th>
+                            <th>Date</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          
+                    <% if(gamePerday.length > 0){ i=1; gamePerday.forEach(function(user) { %>
+                      <tr>
+                        <td>
+                          <%= user.gamesplayed%>
+                        </td>
+                        <td>
+                          <%= user.total_bet%>
+                        </td>
+                        <td>
+                          <%= user.winners%>
+                        </td>
+                        <td>
+                          <%= user.profit%>
+                        </td>
+                        <td>
+                          <%=new Date(user.created_at).toDateString()%>
+                        </td>
+                      </tr>
+                      <% i++;});} %>
+                        </tbody>
+                      </table>
+                    </div>
+							
+						
+                  </div>
+                </div>
+              </div>
+          </div>

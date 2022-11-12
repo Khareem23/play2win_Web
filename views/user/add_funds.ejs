@@ -1,0 +1,209 @@
+<% layout('layouts/userBase') -%>
+<style>
+  .form-control {
+  }
+</style>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Add Funds</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li>
+            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a
+              href="#"
+              class="dropdown-toggle"
+              data-toggle="dropdown"
+              role="button"
+              aria-expanded="false"
+              ><i class="fa fa-wrench"></i
+            ></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Settings 1</a></li>
+              <li><a href="#">Settings 2</a></li>
+            </ul>
+          </li>
+          <li>
+            <a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br />
+
+        <form
+          id="edituserfm"
+          data-parsley-validate
+          class="form-horizontal form-label-left"
+        >
+          <script src="https://checkout.flutterwave.com/v3.js"></script>
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12 lblConFunds"
+              for="first-name"
+              >Quick Add<span class="required">*</span>
+            </label>
+            <div class="col-md-7 col-sm-7 col-xs-12 fundButtonCon">
+              <button
+                type="button"
+                class="btn btn-primary addFundBtn"
+                onClick="makePayment(1000)"
+              >
+                ₦ 1000
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary addFundBtn"
+                onClick="makePayment(5000)"
+              >
+                ₦ 5000
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary addFundBtn"
+                onClick="makePayment(10000)"
+              >
+                ₦ 10,000
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary addFundBtn"
+                onClick="makePayment(50000)"
+              >
+                ₦ 50,000
+              </button>
+            </div>
+          </div>
+          <br />
+          <div class="col-md-10 col-sm-10 col-xs-12" style="text-align: center">
+            <span>OR</span>
+          </div>
+          <br /><br />
+
+          <div class="form-group addFunds">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >Add amount<span class="required">*</span>
+            </label>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <input
+                type="number"
+                id="amount"
+                required="required"
+                class="form-control col-md-4 col-xs-6"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-7 col-sm-7 col-xs-12">
+              <button
+                type="button"
+                class="btn btn-primary"
+                onClick="makePayment(0)"
+                style="float: right"
+                id="btnWd"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+          <div class="ln_solid"></div>
+        </form>
+        <script>
+          var user = JSON.parse(localStorage.getItem("user"));
+          function makePayment(amount) {
+            amount == 0 ? (amount = $("#amount").val()) : amount;
+            console.log(amount)
+            if (amount >= 1000)
+              FlutterwaveCheckout({
+                public_key: "FLWPUBK_TEST-b2a7373ef1bc08df84ee316e3ce9a522-X",
+                tx_ref: "hooli-tx-1920bbtyt",
+                amount: amount,
+                currency: "NGN",
+                country: "NG",
+                payment_options: "card, mobilemoneyghana, ussd",
+                meta: {
+                  consumer_id: user.user_id,
+                  consumer_mac: "92a3-912ba-1192a",
+                },
+                customer: {
+                  email: user.email,
+                  phone_number: user.phone,
+                  name: user.username,
+                },
+                callback: function (data) {
+                  $.notify("Payment successful", "success");
+                  if (data.status == "successful") {
+                    recordTrans(
+                      {
+                        amount: data.amount,
+                        msg: data.status,
+                        status: "success",
+                        code: 200,
+                        type: "Credit",
+                        details: "Money Added",
+                        trans_id: data.transaction_id,
+                      },
+                      user.token
+                    );
+                  }
+                  // else{
+                  //   recordTrans({amount:data.amount, msg: data.status, code: 502, type: 'Credit', details: 'Transaction Failed', trans_id: data.transaction_id})
+                  // }
+                },
+                onclose: function () {
+                  // close modal
+                },
+                customizations: {
+                  title: "5 Games",
+                  description: "Payment for items in cart",
+                  logo: "https://assets.piedpiper.com/logo.png",
+                },
+              });
+              else{
+                $.notify('Please add ₦ 1000 or more', 'error')
+              }
+          }
+
+          var recordTrans = (obj, token) => {
+            $.ajax({
+              type: "POST",
+              data: JSON.stringify(obj),
+              contentType: "application/json",
+              url: "/apis/record-trans",
+              headers: { Authorization: "bearer " + token },
+              success: function (data) {
+                console.log(data);
+                if (data.success) {
+                  $.notify(data.msg, "success");
+                  setTimeout(function () {
+                    window.location.reload();
+                  }, 3000);
+                }
+              },
+              error: function (err) {
+                console.log(err.responseJSON.errors);
+                err.responseJSON.errors.forEach((element) => {
+                  $.notify(element, "error");
+                });
+                console.log("error");
+              },
+            });
+          };
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    var user = JSON.parse(localStorage.getItem("user"));
+    $(".username").text(user.username);
+  });
+</script>

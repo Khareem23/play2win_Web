@@ -1,0 +1,24 @@
+<% layout('layouts/withoutsidebar') -%>
+<section class="login_content">
+<style>
+#am{ font-weight:bold}
+</style>
+    <form id="withdralform" method="POST">
+      <h1 style="font-size: 40px !important;">Withdrawal</h1>
+      <div>
+        <div style="font-size: 16px;"><spam>Your Avaialble Amount is : </spam><span id="am"><%=amount%></span></div>
+      </div>
+      <div>
+        <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount to be withdrawn" required="" />
+      </div>
+
+      <input type="hidden" name="id" value="<%=user_id%>" />
+      <input type="hidden" id="no_of_coins" name="no_of_coins" value="<%=amount%>" />
+      <div class="clearfix"></div><br/>
+      <div>   
+        <button type="submit" class="btn btn-default submit" id="send">Submit</button>
+      </div>
+    </form>
+   
+  </section>
+

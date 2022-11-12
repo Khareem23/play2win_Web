@@ -1,0 +1,55 @@
+<% layout('layouts/base') -%>
+  <div class="row">
+<div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Milestones </h2><a href="/admin/addmilestone" class="btn-success btn pull-right" >Add New</a>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                    <div class="table-responsive">
+                      <table id="datatable-milestone" class="table table-striped table-bordered bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                            <th class="column-title">Location Name </th>
+                             <th class="column-title">Status</th>
+                            <th class="column-title">Description</th>
+                            <th class="column-title">Updated At</th>
+                            <th class="column-title no-link last"><span class="nobr">Action</span>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <%
+                          if(milestones.length > 0){
+                           milestones.forEach(function(milestone){ %>
+                          
+                          <tr class="even pointer">
+                            <td class="a-center ">
+                              <input type="checkbox" class="flat" name="table_records[]" value="<%=milestone.id%>">
+                            </td>
+                            <td class=" "><%=milestone.milestone_name%></td>
+                            <td class=" "><%=milestone.status%></td>
+                            <td class=" "><%=milestone.text.substr(0, 20); %></td>
+                            <td class=" "><%=milestone.updated_at%></td>
+                            <td class="last">
+                         <!--    <a class="btn btn-success btn-xs milestone"  data-id="<%=milestone.id%>">Edit</a> -->
+                              <button type="button" class="btn btn-danger btn-xs milestone"  data-id="<%=milestone.id%>">Delete</button>
+                            </td>
+                          </tr>
+                          <% }) } %>
+                        </tbody>
+
+                      </table>
+                    </div>
+							
+						
+                  </div>
+                </div>
+              </div>
+          </div>

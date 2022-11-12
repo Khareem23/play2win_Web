@@ -1,0 +1,20 @@
+SELECT id, participants->'$.player1.id' userid, participants->'$.player1.bet' bet
+FROM pool WHERE id=1;
+
+UPDATE pool
+SET `participants` = JSON_SET(
+    `participants` ,
+    '$.player1.bet' ,
+    'red'
+)
+WHERE
+    `id` = 1;
+
+
+    UPDATE pool
+SET `participants` = JSON_REMOVE(
+    `participants` ,
+    '$.player1.bet'
+)
+WHERE
+    `id` = 1;

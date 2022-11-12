@@ -1,0 +1,74 @@
+<% layout('layouts/base') -%>
+  <div class="row bg">
+<div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>KYC Request</h2>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                    <div class="table-responsive">
+                        <p id="date_filter">
+                            <span id="date-label-from" class="date-label">From </span>:<input type="text" id="min" name="min" class="date_range_filter date">&nbsp;&nbsp;&nbsp;<span id="date-label-to" class="date-label">To </span>:<input type="text" id="max" name="max" class="date_range_filter date">
+                        </p>
+                      <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th>
+                              <input type="checkbox" id="check-all" class="flat">
+                            </th>
+                            <th class="column-title1">User </th>
+                            <th class="column-title1">Full Name </th>
+                            <th class="column-title1">Bank Name</th>
+                            <th class="column-title1">Account</th>
+                            <th class="column-title1">IFSC Code</th>
+                            <th class="column-title1">PAN Number </th>
+                            <th class="column-title1">PAN Doc </th>
+                            <th class="column-title1">Bank Doc </th>
+                            
+                            <th class="column-title1 no-link last"><span class="nobr">Action</span>
+                            </th>
+                            <th class="bulk-action">
+                              
+                            </th>
+
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <%
+                          if(kycRequest.length >0){
+                            kycRequest.forEach(function(user){ %>
+                          
+                          <tr class="even pointer">
+                            <td class="a-center ">
+                              <input type="checkbox" class="flat" name="table_records[]" value="<%=user.id%>">
+                            </td>
+                            <td class=" "><%=user.username%></td>
+                            <td class=" "><%=user.full_name%></td>
+                            <td class=" "><%=user.bank_name%></td>
+                            <td class=" "><%=user.acc_num%></td>
+                            <td class=" "><%=user.ifsc_code%></td>
+                            <td class=" "><%=user.pan_num%></td>
+                            <td class=""><a href="/uploads/<%=user.pan_doc%>" data-toggle="lightbox"><img src='/uploads/<%=user.pan_doc%>' width="50px" height="50px" alt="image" class="img-fluid"/></a></td>
+                             <td><a href="/uploads/<%=user.bank_doc%>"  data-toggle="lightbox"><img src='/uploads/<%=user.bank_doc%>' width="50px" height="50px" alt="image" class="img-fluid"/></a></td>
+                             <td><%=user.status%></td>
+                            <td class="last">
+                              <% if(user.status == 'approved'){ %>
+                              <button type="button" class="btn btn-danger btn-xs approve" data-id="<%=user.id%>" data-status="<%=user.status%>">Disapprove</button>
+                              <% } else{%>
+                              <button type="button" class="btn btn-danger btn-xs approve" data-id="<%=user.id%>" data-status="<%=user.status%>">Approve</button>  
+                              <% } %>
+                            </td>
+                          </tr>
+                          <% }) }%>
+                        </tbody>
+                      </table>
+                    </div>
+							
+						
+                  </div>
+                </div>
+              </div>
+          </div>

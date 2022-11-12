@@ -1,0 +1,148 @@
+<% layout('layouts/userBase') -%>
+
+<div class="row bg">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Active Match Requests</h2>
+
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="x_content">
+        <div class="table-responsive">
+          <p id="date_filter" hidden>
+            <span id="date-label-from" class="date-label">From </span>:<input
+              type="text"
+              id="min"
+              name="min"
+              class="date_range_filter date"
+            />&nbsp;&nbsp;&nbsp;<span id="date-label-to" class="date-label"
+              >To </span
+            >:<input
+              type="text"
+              id="max"
+              name="max"
+              class="date_range_filter date"
+            />
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+  var looper = () => {
+    $(".table-responsive").remove();
+    var user = JSON.parse(localStorage.getItem("user"));
+    $(".username").text(user.username);
+    $.ajax({
+      type: "POST",
+      data: JSON.stringify({
+        user: user.username,
+      }),
+      contentType: "application/json",
+      url: "/apis/match-request-list",
+      headers: { Authorization: "bearer " + user.token },
+      success: function (data) {
+        var table = ` 
+        <div class="table-responsive">
+          <p id="date_filter" hidden>
+            <span id="date-label-from" class="date-label">From </span>:<input
+              type="text"
+              id="min"
+              name="min"
+              class="date_range_filter date"
+            />&nbsp;&nbsp;&nbsp;<span id="date-label-to" class="date-label"
+              >To </span
+            >:<input
+              type="text"
+              id="max"
+              name="max"
+              class="date_range_filter date"
+            />
+          </p>
+        
+        <table
+            id="datatable"
+            class="table table-striped table-bordered bulk_action"
+          >
+            <thead>
+              <tr class="headings">
+                <th class="column-title1">Match Id</th>
+                <th class="column-title1">From User</th>
+                <th class="column-title1">Game</th>
+                <th class="column-title1">Request Type</th>
+                <th class="column-title1">Bet Amoun</th>
+                <th class="column-title1">Action</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">`;
+        if (data.data.length)
+          data.data.forEach((element, index) => {
+            var type = "Received";
+            if (element.fromUser == user.username) type = "Sent";
+
+            var row = `<tr>
+                <td>${element.id}</td>
+                <td>${element.fromUser}</td>
+                <td>${element.game_name}</td>
+                <td>${type}</td>
+                <td>${element.betAmount}</td>
+                <td><button type="button" onclick="launchGame(${element.id}, '${element.fromUser}', '${element.gameId}', '${element.betAmount}', '${element.game_name}')" class="btn btn-primary btn-xs del">Launch</button>
+          
+        </button></td>
+              </tr>`;
+            table += row;
+          });
+
+        table += `<tbody id="table-body"></tbody>
+          </table></div>`;
+        $(".x_content").append(table);
+        $("#datatable").DataTable();
+      },
+      error: function (err) {
+        console.log(err.responseJSON.errors);
+        err.responseJSON.errors.forEach((element) => {
+          $.notify(element, "error");
+        });
+        console.log("error");
+      },
+    });
+  };
+
+  $(document).ready(function () {
+    looper();
+    window.setInterval(function () {
+      looper();
+    }, 20000);
+  });
+  var launchGame = (matchId, fromUser, gameId, betAmount, game_name) => {
+    var user = JSON.parse(localStorage.getItem("user"));
+    /* match request  */
+    $.ajax({
+      type: "POST",
+      data: JSON.stringify({
+        matchId,
+      }),
+      headers: { Authorization: `Bearer ${user.token}` },
+      contentType: "application/json",
+      url: "/apis/update-request",
+      success: function (data) {
+        console.log(data);
+        window.open(
+          `unitydl://mylink?matchId=${matchId}&gameId=${gameId}&userId=${user.user_id}&betAmount=${betAmount}&email=${user.u}&pin=${user.p}&gameName=${game_name}&token=${user.token}`
+        );
+      },
+      error: function (err) {
+        console.log(err.responseJSON.errors);
+        err.responseJSON.errors.forEach((element) => {
+          $.notify(element, "error");
+        });
+      },
+    });
+    /* match request end */
+  };
+  console.log = function () {};
+</script>

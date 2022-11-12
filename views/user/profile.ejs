@@ -1,0 +1,243 @@
+<% layout('layouts/userBase') -%>
+<style>
+  .form-control {
+  }
+</style>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>User Details</h2>
+        <ul class="nav navbar-right panel_toolbox">
+          <li>
+            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          </li>
+          <li class="dropdown">
+            <a
+              href="#"
+              class="dropdown-toggle"
+              data-toggle="dropdown"
+              role="button"
+              aria-expanded="false"
+              ><i class="fa fa-wrench"></i
+            ></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Settings 1</a></li>
+              <li><a href="#">Settings 2</a></li>
+            </ul>
+          </li>
+          <li>
+            <a class="close-link"><i class="fa fa-close"></i></a>
+          </li>
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <br />
+        <form
+          id="edituserfm"
+          data-parsley-validate
+          class="form-horizontal form-label-left"
+        >
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >User Name<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input
+                type="text"
+                id="username"
+                required="required"
+                class="form-control col-md-7 col-xs-12"
+                readonly
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >Email<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input
+                type="text"
+                id="email"
+                required="required"
+                class="form-control col-md-7 col-xs-12"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >Gender<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input
+                type="text"
+                id="gender"
+                required="required"
+                class="form-control col-md-7 col-xs-12"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >Total Coins<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input
+                type="text"
+                id="totalcoins"
+                required="required"
+                class="form-control col-md-7 col-xs-12"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >Coins Won<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input
+                type="text"
+                id="woncoins"
+                required="required"
+                class="form-control col-md-7 col-xs-12"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >Coins Lost<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input
+                type="text"
+                id="lostcoins"
+                required="required"
+                class="form-control col-md-7 col-xs-12"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >Total Spent<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input
+                type="text"
+                id="totalspent"
+                required="required"
+                class="form-control col-md-7 col-xs-12"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >Battle Played<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input
+                type="text"
+                id="battleplayed"
+                required="required"
+                class="form-control col-md-7 col-xs-12"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >Battle Lost<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input
+                type="text"
+                id="battlelost"
+                required="required"
+                class="form-control col-md-7 col-xs-12"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label
+              class="control-label col-md-3 col-sm-3 col-xs-12"
+              for="first-name"
+              >Battle Won<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input
+                type="text"
+                id="battlewon"
+                required="required"
+                class="form-control col-md-7 col-xs-12"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="ln_solid"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    var user = JSON.parse(localStorage.getItem("user"));
+    $(".username").text(user.username);
+    console.log(user);
+    $.ajax({
+      type: "GET",
+      url: "/apis/userdetails",
+      headers: { Authorization: `Bearer ${user.token}` },
+      success: function ({ result }) {
+        console.log("data:", result);
+        $("#username").val(result.username);
+        $("#email").val(result.email);
+        $("#gender").val(result.gender);
+        $("#totalcoins").val(result.coins);
+        $("#woncoins").val(result.coins_won);
+        $("#lostcoins").val(result.coins_lost);
+        $("#totalspent").val(result.totalspent);
+        $("#battleplayed").val(result.battles_played);
+        $("#battlelost").val(result.battles_lost);
+        $("#battlewon").val(result.battles_won);
+      },
+      error: function (err) {
+        console.log(err.responseJSON.errors);
+        err.responseJSON.errors.forEach((element) => {
+          $.notify(element, "error");
+        });
+
+        console.log("error");
+      },
+    });
+  });
+</script>
+

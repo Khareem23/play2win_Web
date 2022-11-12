@@ -1,0 +1,89 @@
+<% layout('layouts/base') -%>
+<script src="/js/jquery.canvasjs.min.js"></script>
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center; font-size:40px; font-weight:bold">
+     
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Users</h2>
+                        <div class="clearfix"></div>
+                      </div>
+    
+                      <div class="x_content">
+                        <div class="table-responsive">
+                            <p id="date_filter" hidden>
+                                <span id="date-label-from" class="date-label">From </span>:<input type="text" id="min" name="min" class="date_range_filter date">&nbsp;&nbsp;&nbsp;<span id="date-label-to" class="date-label">To </span>:<input type="text" id="max" name="max" class="date_range_filter date">
+                            </p>
+                            <table
+                            id="datatable"
+                            class="table table-striped table-bordered bulk_action"
+                          >
+                            <thead>
+                              <tr class="headings">
+                                <th>
+                                  <input type="checkbox" id="check-all" class="flat">
+                                </th>
+                                <th class="column-title1">Email </th>
+                                <!-- <th class="column-title1">Phone</th> -->
+                                <th class="column-title1">Coins</th>
+                                <th class="column-title1">Coins Won</th>
+                                <th class="column-title1">Total Spent</th>
+                                <th class="column-title1">Action </th>
+                                
+                               
+                                <th class="column-title1">
+                                  View Transcations
+                                </th>
+                                <th class="column-title1">
+                                 Spent Log
+                                </th>
+    
+                              </tr>
+                            </thead>
+    
+                            <tbody>
+                              <%
+                              if(users.length >0){
+                               users.forEach(function(user){ %>
+                              
+                              <tr class="even pointer">
+                                <td class="a-center ">
+                                  <input type="checkbox" class="flat" name="table_records[]" value="<%=user.id%>">
+                                </td>
+                                <td class=" "><%if(user.email == null){%><%=user.username%><%}else{%><%=user.email%><%}%></td>
+                                <!-- <td class=" "><%=user.phone%></td> -->
+                                <td class=" "><%=user.coins%></td>
+                                <td class=" "><%=user.coins_won%></td>
+                                <td class=" "><%if(user.total_spent == null){%>0<%}else{%><%=user.total_spent%><%}%></td>
+                               <!--  <td class=" "><%if(user.fb_id != null){%>FB<%}else if(user.username.substring(0, 5) !='Guest'){%>Registration<%}else{%><%=user.username.substring(0, 5) %><%}%></td>    -->                         
+                                <td class="a-right a-right ">
+                                  <% if(user.status == 1){%>
+                                 <button type="button" class="btn btn-warning btn-xs on-off" data-id="<%=user.id%>"  data-status="<%=user.status%>">Block</button> 
+                                 <% } else { %>
+                                 <button type="button" class="btn btn-danger btn-xs on-off"  data-id="<%=user.id%>"  data-status="<%=user.status%>">Unblock</button> 
+                                 <% } %>  
+                                 </td>
+                                
+                                 <td> <a href="/admin/view_transactions/<%=user.id%>" target="_blank" style="text-decoration:underline; font-weight: bold;">Details</a></td>
+                                 
+                                <td> <a href="/admin/spent_log/<%=user.id%>" target="_blank" style="text-decoration:underline; font-weight: bold;">Details</a></td>
+                              </tr>
+                              <% }) }%>
+                            </tbody>
+                          </table>
+                        </div>
+                  
+                
+                      </div>
+                    </div>
+                  </div>
+              </div>
+  <div class="clearfix">...</div>
+
+  

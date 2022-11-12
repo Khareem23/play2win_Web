@@ -1,0 +1,106 @@
+<% layout('layouts/base') -%>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Bets</h2>
+        <a href="/admin/create-bet" class="btn btn-success btn-xs pull-right"
+        >Add New</a
+      >
+        <div class="clearfix"></div>
+      </div>
+   
+
+      <div class="x_content">
+        <div class="table-responsive col-md-12 col-sm-12">
+          <p id="date_filter" style="display: none" hidden>
+            <span id="date-label-from" class="date-label">From </span>:<input
+              type="text"
+              id="min"
+              name="min"
+              class="date_range_filter date"
+            />&nbsp;&nbsp;&nbsp;<span id="date-label-to" class="date-label"
+              >To </span
+            >:<input
+              type="text"
+              id="max"
+              name="max"
+              class="date_range_filter date"
+            />
+          </p>
+          <table
+          id="datatable"
+          class="table table-striped table-bordered bulk_action"
+        >
+            <thead>
+              <tr class="headings">
+                <th class="column-title1">Id</th>
+                <th class="column-title1 no-link last">
+                  <span class="nobr">Edit</span>
+                </th>
+                <th class="column-title1">Bet Amount</th>
+                <th class="column-title1">Game Name</th>
+                <th class="column-title1">Pool Id</th>
+                <th class="column-title1">Delete</th>
+              
+                <th class="column-title1">Created</th>
+              </tr>
+            </thead>
+            <tbody>
+             <% if(bets.length >0){ bets.forEach(function(bet){ %>
+
+              <tr class="even pointer">
+                <td class=" "><%=bet.id%></td>
+                <td>
+                  <a href="/admin/edit_bet/<%=bet.id%>"
+                    ><i class="fa fa-edit"></i> Edit</a
+                  >
+                </td>
+             
+                <td class=" "><%=bet.bet_amount%></td>
+                <td class=" "><%=bet.game_name%></td>
+                <td class=" "><%=bet.poolid%></td>
+                <td class=""><button type="button" onclick='deleteBet("<%=bet.id%>","<%=bet.poolid%>")' class="btn btn-danger btn-xs del">Delete</button>
+                </td>
+                <td class=" ">
+                  <%=new Date(bet.created_at).toDateString()%>
+                </td>
+
+             
+              </tr>
+              <% }) }%>
+           </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+     var deleteBet = (id, poolid) => {
+            $.ajax({
+              type: "POST",
+              data: JSON.stringify({id,poolid}),
+              contentType: "application/json",
+              url: "/admin/delete-bet",
+              success: function (data) {
+                console.log(data);
+                if (data.success) {
+                  $.notify(data.msg, "success");
+                  setTimeout(function () {
+                    window.location.reload();
+                  }, 3000);
+                }
+              },
+              error: function (err) {
+                console.log(err.responseJSON.errors);
+                err.responseJSON.errors.forEach((element) => {
+                  $.notify(element, "error");
+                });
+                console.log("error");
+              },
+            });
+          };
+</script>
+

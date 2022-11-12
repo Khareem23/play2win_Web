@@ -1,0 +1,115 @@
+<% layout('layouts/withoutsidebar') -%>
+<style>
+input,select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    padding: 5px;
+  }
+  .field-con {
+    text-align: left;
+  }
+  .b-con {
+    display: flex;
+    flex-direction: column;
+}
+a#register {
+  width: 32%;
+    align-self: flex-end;
+    padding: 6px 15px;
+}
+</style>
+<section class="login_content">
+  <form id="loginform">
+    <h1>Registration Form</h1>
+    <div class="field-con">
+      <label for="defaultForm-email">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        name="username"
+        id="username"
+        placeholder="user797"
+        required=""
+      />
+    </div>
+    <div class="field-con">
+      <label for="defaultForm-email">Email</label>
+      <input
+        type="text"
+        class="form-control"
+        name="email"
+        id="email"
+        placeholder="user797@gmailcom"
+        required=""
+        onfocusout="isValidemail()"
+      />
+    </div>
+    <div class="field-con">
+      <label for="defaultForm-email">Phone</label>
+      <input
+        type="text"
+        class="form-control"
+        name="phone"
+        id="phone"
+        placeholder="919876543210"
+        required=""
+      />
+    </div>
+    <div class="field-con">
+      <label for="defaultForm-email">Pin</label>
+      <input
+        type="text"
+        class="form-control"
+        name="pin"
+        id="pin"
+        placeholder="1234"
+        required=""
+      />
+    </div>
+    <div class="field-con">
+      <label for="defaultForm-email">Gender</label>
+      <select
+        type="text"
+        id="gender"
+        name="gender"
+        required="required"
+        class="form-control col-md-12 col-sm-12 col-xs-12"
+        placeholder="local"
+      >
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+ 
+    <div class="clearfix"></div>
+    <div class="b-con">
+      <div class="link-con">
+      <a class="reset_pass" href="/login" style="float: left;">Already registered? Login</a>
+
+      </div>
+  <a class="btn btn-default submit" id="register">Register</a>
+
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="separator">
+      <div>
+        <!-- <img src="/images/logo.png" /> -->
+      </div>
+    </div>
+  </form>
+</section>
+<script>
+  function isValidemail() {
+    var email = $('#email').val()
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  console.log(regex.test(email));
+  if(!regex.test(email)){
+    $.notify("Enter valid email address!", "error");
+
+    $("#email").focus();
+  }
+}
+</script>

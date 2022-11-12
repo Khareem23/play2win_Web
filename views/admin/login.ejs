@@ -1,0 +1,65 @@
+<% layout('layouts/withoutsidebar') -%>
+<style>
+  input {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    padding: 5px;
+  }
+  .reset_pass {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+}
+.b-con {
+    display: flex;
+    flex-direction: column;
+}
+a#login {
+ 
+    width: 32%;
+    align-self: flex-end;
+    padding: 6px 15px;
+}
+</style>
+<section class="login_content">
+  <form id="loginform">
+    <h1>Login Form</h1>
+    <div>
+      <input
+        type="text"
+        class="form-control"
+        name="email"
+        placeholder="Email or Username"
+        required=""
+      />
+    </div>
+    <div>
+      <input
+        type="password"
+        class="form-control"
+        name="password"
+        placeholder="Password"
+        required=""
+      />
+    </div>
+    <div class="b-con">
+      <div class="link-con">
+        <a class="reset_pass" href="/forgot-pass" style="float: left;">Forgot password?</a>
+        <a class="reset_pass" href="/register" style="float: right;">New User? Register</a>
+      </div>
+      <div>
+        <a class="btn btn-default submit" id="login">Log in</a>
+      </div>
+     
+      
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="separator">
+      <div>
+        <!-- <img src="/images/logo.png" /> -->
+      </div>
+    </div>
+  </form>
+</section>

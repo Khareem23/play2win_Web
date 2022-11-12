@@ -1,0 +1,168 @@
+<% layout('layouts/userBase') -%>
+<style>
+  .thumbnail {
+    height: auto;
+    min-height: 350px;
+    max-height: 350px;
+  }
+  .c-header {
+    font-size: 22px;
+    padding: 10px;
+    background: #ededed;
+    text-transform: capitalize;
+  }
+
+  /* modal details */
+  .modal-dialog {
+    position: relative;
+    display: table; /* This is important */
+    width: auto;
+    min-width: 500px;
+    /*   overflow-y: scroll; */
+    overflow-x: auto;
+  }
+
+  /* Get rid of the background fade */
+  modal-backdrop {
+    opacity: 0;
+  }
+
+  .modal-body {
+    /*   max-height: 800px; */
+    /*   width: 700px; */
+    min-height: 80px;
+    /*   overflow-y: auto; */ /* Enable for scrollbar */
+  }
+
+
+  .caption{
+    background: #ededed;
+    min-height: 55px;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="row bg">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div
+      class="col-md-4 col-sm-4 col-xs-12 pull-left"
+      style="font-size: 25px; font-weight: bold; text-align: center"
+    >
+      <span id="totalAmount">Total Amount : </span>
+    </div>
+    <div
+      class="col-md-4 col-sm-4 col-xs-12 pull-right"
+      style="font-size: 25px; font-weight: bold; text-align: center"
+    >
+      <span id="totalEarning">Total Earning :</span>
+    </div>
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Transactions</h2>
+
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="x_content">
+        <div class="col-md-12 col-sm-12">
+          <% if(games.length >0){ games.forEach(function(game){ %>
+          <div class="col-md-4">
+            <div class="thumbnail">
+              <div class="c-header"><%=game.game_name%></div>
+             
+                <img src="<%=game.image%>" alt="Lights" style="width: 70%; height: 220px;" />
+                <div class="caption">
+                  <button
+                    type="button"
+                    onclick="loadBets('<%=game.id%>')"
+                    class="btn btn-primary pull-right"
+                  >
+                    Launch Game
+                  </button>
+                </div>
+            </div>
+          </div>
+          <%})}%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- modal header  -->
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+        <h4 class="modal-title">Select Bet Pool</h4>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12 col-sm-12">
+          <select
+            type="text"
+            id="bets"
+            name="bets"
+            class="form-control col-md-7 col-xs-12"
+            placeholder="local"
+            onchange=""
+          >
+          </select>
+          <input type="text" class="hidden" id="gameid">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- modal footer  -->
+        <button type="button" class="btn btn-default" onclick="launchGame()">
+          Launch Game
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+  var loadBets = (gameid) => {
+    console.log(gameid)
+    var user = JSON.parse(localStorage.getItem("user"));
+    $(".username").text(user.username);
+    $.ajax({
+      type: "GET",
+      url: "/apis/getGameBets/"+gameid,
+      headers: { Authorization: `Bearer ${user.token}` },
+      success: function ({ result }) {
+        var str = ''
+        result.forEach(bet => {
+           str = str+ `<option value='${bet.bet_amount}'>${bet.bet_amount}</option>`
+        });
+        $('#bets').html(str)
+        $('#gameid').val(gameid)
+        $('#myModal').modal()
+      },
+      error: function (err) {
+        console.log(err.responseJSON.errors);
+        err.responseJSON.errors.forEach((element) => {
+          $.notify(element, "error");
+        });
+
+        console.log("error");
+      },
+    });
+  };
+
+  $(document).ready(function () {
+    var user = JSON.parse(localStorage.getItem("user"));
+    $(".username").text(user.username);
+ 
+   
+  });
+
+  var launchGame = ()=>{
+    var gameid = $('#gameid').val()
+    var amount = $('#bets').val()
+    console.log(gameid, amount)
+  }
+</script>

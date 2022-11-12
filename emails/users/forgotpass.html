@@ -1,0 +1,80 @@
+<html>
+
+<head>
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+	<style>
+		* {
+			font-family: Helvetica, Arial, sans-serif;
+		}
+
+		.header {
+			background: #160962;
+			padding: 10px;
+			text-align: center
+		}
+
+		.content {
+			padding: 5px 20px
+		}
+
+		.content h3 {
+			text-align: center
+		}
+
+		.content p {
+			line-height: 20px
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="header text-center">
+				<img src="http://192pool.com/images/logo.png" width="155" alt='Logo' data-default="placeholder" />
+			</div>
+		</div>
+		<div class="row">
+			<div>
+				<div class="content">
+					<br>
+					<h4>Hi {{username}}</h4>
+					<p>We got a request to reset your password. Please click the (link/button) below to complete the
+						process.
+					</p>
+					<p>
+						http://{{host}}/reset/{{token}}
+					</p>
+					<p>
+						<a target='_blank' href='http://{{host}}/reset/{{token}}' class=' btn btn-primary'>
+							<font color="#000">Reset</font>
+						</a>
+					</p>
+					<p>
+						You told us you forgot your password. If you really did, then click here to reset your password.
+					</p>
+					<p>
+						If you didn’t mean to change your 5Games password, just ignore the email.
+					</p>
+					<br>
+					<p>
+						<strong>
+							Warm Regards,<br>
+							Team 5Games.
+						</strong>
+					</p>
+				</div>
+			</div>
+			<div>
+				<a target='_blank' href='http://{{host}}/reset/{{token}}' class=' btn btn-primary'>
+					<font color="#fff">Reset</font>
+				</a>
+			</div>
+			<div>
+
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

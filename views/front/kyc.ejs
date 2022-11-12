@@ -1,0 +1,43 @@
+<% layout('layouts/withoutsidebar') -%>
+<section class="login_content">
+  <% if(status == 'disapproved'){%>
+    <h4 style="line-height: 22px;">Your account is Under Review. You will be notified once veryfication is done. Thank You.</h4>
+  <% }else{ %>
+    <form id="kycform" enctype="multipart/form-data" method="POST" action="/kyc">
+      <h1 style="font-size: 40px !important;">KYC Form</h1>
+      <div>
+        <input type="text" class="form-control" name="full_name" placeholder="Full Name as per Bank" required="" />
+      </div>
+      <div>
+        <input type="text" class="form-control" name="bank_name" placeholder="Bank Name" required="" />
+      </div>
+      <div>
+        <input type="text" class="form-control" name="acc_num" placeholder="Account Number" required="" />
+      </div>
+      
+      <div>
+        <input type="text" class="form-control" name="ifsc_code" placeholder="IFSC CODE" required="" />
+      </div>
+      <div>
+        <input type="text" class="form-control" name="phone" placeholder="Phone Number" required="" />
+      </div>
+      <div>
+        <input type="text" class="form-control" name="pan_num"  placeholder="PAN Number" required="" />
+      </div>
+      <div>
+        <input type="file" class="form-control" name="pan_doc" />
+        <small>Upload PAN Card</small>
+        <input type="hidden" class="form-control" name="user_id" value="<%=user_id%>" />
+      </div><br/>
+      <div>
+        <input type="file" class="form-control" name="bank_doc" />
+        <small>Bank Document</small>
+      </div>
+      <div class="clearfix"></div><br/>
+      <div>   
+        <button type="submit" class="btn btn-default submit" id="send">Submit</button>
+      </div>
+    </form>
+    <% } %>
+  </section>
+

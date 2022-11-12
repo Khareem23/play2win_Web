@@ -1,0 +1,67 @@
+<% layout('layouts/withoutsidebar') -%>
+<style>
+  input,select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    padding: 5px;
+  }
+  .field-con {
+    text-align: left;
+  }
+  .b-con {
+    display: flex;
+    flex-direction: column;
+}
+a#VerifyPhone {
+  width: 32%;
+    align-self: flex-end;
+    padding: 6px 15px;
+}
+</style>
+<section class="login_content">
+  <form id="loginform">
+    <h1>Verify Phone</h1>
+    <div>
+      <div class="field-con">
+        <label for="defaultForm-email">Phone</label>
+        <input
+          type="text"
+          class="form-control"
+          name="phone"
+          id="phone"
+          placeholder="919876543210"
+          required=""
+        />
+      </div>
+      <div class="field-con">
+        <label for="defaultForm-email">Code</label>
+        <input
+          type="text"
+          class="form-control"
+          name="code"
+          id="code"
+          placeholder="123456"
+          required=""
+        />
+      </div>
+    </div>
+  
+    <div class="b-con">
+      <div class="link-con">
+        <a class="reset_pass" href="/login" style="float: left;">Back to Login</a>
+      </div>
+      <a class="btn btn-default submit" id="VerifyPhone">Submit</a>
+     
+      
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="separator">
+      <div>
+        <!-- <img src="/images/logo.png" /> -->
+      </div>
+    </div>
+  </form>
+</section>

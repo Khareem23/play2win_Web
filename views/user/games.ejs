@@ -1,0 +1,283 @@
+<% layout('layouts/userBase') -%>
+<style>
+  .c-header {
+    font-size: 22px;
+    padding: 10px;
+    text-transform: capitalize;
+  }
+
+  /* modal details */
+  .radioCon {
+    margin-bottom: 20px;
+  }
+  select#bets {
+    margin-bottom: 20px;
+  }
+  .modal-dialog {
+    position: relative;
+    display: table; /* This is important */
+    width: auto;
+    min-width: 500px;
+    /*   overflow-y: scroll; */
+    overflow-x: auto;
+  }
+
+  /* Get rid of the background fade */
+  modal-backdrop {
+    opacity: 0;
+  }
+
+  .modal-body {
+    /*   max-height: 800px; */
+    /*   width: 700px; */
+    min-height: 150px;
+    /*   overflow-y: auto; */ /* Enable for scrollbar */
+  }
+
+  .caption {
+    background: #ededed;
+    min-height: 55px;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="row bg">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <!--   <div
+      class="col-md-4 col-sm-4 col-xs-12 pull-left"
+      style="font-size: 25px; font-weight: bold; text-align: center"
+    >
+      <span id="totalAmount">Total Amount : </span>
+    </div>
+    <div
+      class="col-md-4 col-sm-4 col-xs-12 pull-right"
+      style="font-size: 25px; font-weight: bold; text-align: center"
+    >
+      <span id="totalEarning">Total Earning :</span>
+    </div> -->
+    <div class="x_panel">
+      <!--    <div class="x_title">
+        <h2>Transactions</h2>
+
+        <div class="clearfix"></div>
+      </div> -->
+
+      <div class="x_content games">
+        <div class="col-md-12 col-sm-12 gamesCon">
+          <% if(games.length >0){ games.forEach(function(game){ %>
+          <div class="col-md-4 col-sm-4 col-xs-6">
+            <div class="thumbnail">
+              <div class="c-header"><%=game.game_name%></div>
+
+              <img src="<%=game.image%>" alt="Lights" class="gameImg" />
+              <div class="caption">
+                <button
+                  type="button"
+                  onclick="loadBets('<%=game.id%>', '<%=game.game_name%>')"
+                  class="btn btn-primary pull-right"
+                >
+                  Launch Game
+                </button>
+              </div>
+            </div>
+          </div>
+          <%})}%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- modal header  -->
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+        <h4 class="modal-title">Select Bet Pool</h4>
+      </div>
+      <div class="modal-body">
+        <div class="mainCon">
+          <div class="col-md-12 col-sm-12">
+            <label>Bet Amount</label>
+          </div>
+          <div class="col-md-12 col-sm-12">
+            <select
+              type="text"
+              id="bets"
+              name="bets"
+              class="form-control col-md-7 col-xs-12"
+              placeholder="local"
+              onchange=""
+            ></select>
+            <input type="text" class="hidden" id="gameid" />
+            <input type="text" class="hidden" id="gamename" />
+          </div>
+        </div>
+
+        <div class="mainCon">
+          <div class="col-md-12 col-sm-12">
+            <label>Bet Amount</label>
+          </div>
+          <div class="col-md-12 col-sm-12 radioCon">
+            <label class="radio-inline">
+              <input
+                type="radio"
+                name="optradio"
+                onclick="handleClick(this)"
+                checked
+                id="radio_1"
+                value="random"
+              />Random
+            </label>
+            <label class="radio-inline">
+              <input
+                type="radio"
+                name="optradio"
+                onclick="handleClick(this)"
+                value="friend"
+              />With Friend
+            </label>
+          </div>
+        </div>
+        <div class="frndId hidden">
+          <div class="col-md-12 col-sm-12">
+            <label>Friend Id</label>
+          </div>
+          <div class="col-md-12 col-sm-12">
+            <input
+              type="text"
+              id="toUser"
+              required="required"
+              class="form-control col-md-4 col-xs-12"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- modal footer  -->
+        <button type="button" class="btn btn-default" onclick="launchGame()">
+          Launch Game
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+  var currentSelected = "random";
+  var loadBets = (gameid, gamename) => {
+    console.log(gameid);
+    var user = JSON.parse(localStorage.getItem("user"));
+    $(".username").text(user.username);
+    $.ajax({
+      type: "GET",
+      url: "/apis/getGameBets/" + gameid,
+      headers: { Authorization: `Bearer ${user.token}` },
+      success: function ({ result }) {
+        var str = "";
+        result.forEach((bet) => {
+          str =
+            str +
+            `<option value='${bet.bet_amount}'>${bet.bet_amount}</option>`;
+        });
+        $("#bets").html(str);
+        $("#gameid").val(gameid);
+        $("#gamename").val(gamename);
+        $("#myModal").modal();
+      },
+      error: function (err) {
+        console.log(err.responseJSON.errors);
+        err.responseJSON.errors.forEach((element) => {
+          $.notify(element, "error");
+        });
+
+        console.log("error");
+      },
+    });
+  };
+
+  $(document).ready(function () {
+    var user = JSON.parse(localStorage.getItem("user"));
+    $(".username").text(user.username);
+  });
+
+  var launchGame = () => {
+    console.log(currentSelected);
+    var user = JSON.parse(localStorage.getItem("user"));
+    var gameid = $("#gameid").val();
+    var gamename = $("#gamename").val();
+    var amount = $("#bets").val();
+    var toUser = $("#toUser").val();
+    if (currentSelected == "friend") {
+      /* match request  */
+      $.ajax({
+        type: "POST",
+        data: JSON.stringify({
+          fromUser: user.username,
+          toUser,
+          gameId: gameid,
+          betAmount: amount,
+        }),
+        headers: { Authorization: `Bearer ${user.token}` },
+        contentType: "application/json",
+        url: "/apis/match-request",
+        success: function (data) {
+          console.log(data);
+
+          if (data.success) {
+            $("#toUser").val("");
+            currentSelected = "random";
+            $("#myModal").modal("hide");
+            $(".frndId").addClass("hidden");
+            $(".modal-body").css("min-height", "150px");
+            $("#radio_1").prop("checked", true);
+            console.log(`matchId=${data.matchId}&gameId=${gameid}&userId=${user.user_id}&betAmount=${amount}&email=${user.u}&pin=${user.p}&gameName=${gamename}&token=${user.token}`)
+            window.open(
+              `unitydl://mylink?matchId=${data.matchId}&gameId=${gameid}&userId=${user.user_id}&betAmount=${amount}&email=${user.u}&pin=${user.p}&gameName=${gamename}&token=${user.token}`
+            );
+          } else {
+            $.notify(data.message, "error");
+          }
+        },
+        error: function (err) {
+          console.log(err.responseJSON.errors);
+          err.responseJSON.errors.forEach((element) => {
+            $.notify(element, "error");
+          });
+        },
+      });
+
+      /* match request end */
+    } else {
+      $("#toUser").val("");
+      currentSelected = "random";
+      $("#myModal").modal("hide");
+      $(".frndId").addClass("hidden");
+      $(".modal-body").css("min-height", "150px");
+      $("#radio_1").prop("checked", true);
+      window.open(
+        `unitydl://mylink?matchId=null&gameId=${gameid}&userId=${user.user_id}&betAmount=${amount}&email=${user.u}&pin=${user.p}&gameName=${gamename}&token=${user.token}`
+      );
+    }
+  };
+
+  function handleClick(myRadio) {
+    currentSelected = myRadio.value;
+    console.log(myRadio);
+    if (myRadio.value == "friend") {
+      $(".frndId").removeClass("hidden");
+      $(".modal-body").css("min-height", "230px");
+    } else {
+      $(".frndId").addClass("hidden");
+      $(".modal-body").css("min-height", "150px");
+    }
+  }
+
+</script>
+
+<!-- unitydl://mylink?gameId=2&userId=31&betAmount=500&token='tokenstring'&gameName=Checkers -->
+<!-- unitydl://mylink?gameId=2&userId=31&betAmount=500&email=ommzi.phpdeveloper91@gmail.com&pin=1234&gameName=Checkers -->

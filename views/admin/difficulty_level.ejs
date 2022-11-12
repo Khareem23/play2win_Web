@@ -1,0 +1,35 @@
+<% layout('layouts/base') -%>
+  <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Difficulty Level</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                  <form id="difficulty_level" action="/admin/difficulty_level" data-parsley-validate class="form-horizontal form-label-left" method="post">
+
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tabletype">Difficulty Level<span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select id="level" name="level" required="required" class="form-control col-md-7 col-xs-12" >
+                          <option value="easy" <% if(difficulty_level == 'easy' ){%> selected <% }%>>Easy</option>
+                          <option value="medium" <% if(difficulty_level == 'medium' ){%> selected <% }%>>Medium</option>
+                          <option value="hard" <% if(difficulty_level == 'hard' ){%> selected <% }%>>Hard</option>
+                        </select>
+                      </div>
+                    </div>
+                      
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button type="submit" class="btn btn-success pull-right" >Submit</button> 
+                        </div>
+                      </div>
+                  </form>
+                  </div>
+                </div>
+              </div>
+            </div>

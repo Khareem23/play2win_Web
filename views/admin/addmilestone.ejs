@@ -1,0 +1,101 @@
+<% layout('layouts/base') -%>
+
+  <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Add Milestone</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                <form id="addmilestonefm" data-parsley-validate class="form-horizontal form-label-left">
+                      <div class="form-group">
+                        <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12">Location</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="searchInput" class="form-control col-md-7 col-xs-12" type="text" name="searchInput" >
+                        </div>
+                      </div>
+                    <div class="form-group">
+                      <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12">Name</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" >
+                          <input id="milestone_name" class="form-control col-md-7 col-xs-12" type="text" name="milestone_name" required>
+                        </div>
+                      </div>
+                      <div class="form-group" style="display: none;">
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12"> Latitude</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="user_lat" class="form-control col-md-7 col-xs-12" type="hidden" name="user_lat" >
+                        </div>
+                      </div>
+                      <div class="form-group" style="display: none;">
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Longitude</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="user_long" class="form-control col-md-7 col-xs-12" type="hidden" name="user_long">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Description<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea class="form-control" rows="3" name="description" placeholder="Description"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Select User(Optional)
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select class="form-control" rows="3" name="username[]" multiple required>
+                            <option value="">Select User</option>
+                           <%
+                          if(users.length > 0){
+                           users.forEach(function(user){ %>
+                            <option value="<%=user.username%>"><%=user.username%></option>
+                            <% }) } %>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <a class="btn btn-success " href="/admin/milestones">Back</a>
+                          <button type="submit" class="btn btn-success pull-right" >Submit</button>  
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+<script>
+
+function initialize() {
+   var latlng = new google.maps.LatLng(28.5355161,77.39102649999995);
+
+    var input = document.getElementById('searchInput');
+
+    var geocoder = new google.maps.Geocoder();
+    var autocomplete = new google.maps.places.Autocomplete(input);
+
+    autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+            window.alert("Autocomplete's returned place contains no geometry");
+            return;
+        } 
+        console.log('geo',place.geometry.location.lat());
+        bindDataToForm(place.formatted_address,place.geometry.location.lat(),place.geometry.location.lng());     
+    });
+
+}
+function bindDataToForm(address,lat,lng){
+   //document.getElementById('location').value = address;
+   document.getElementById('user_lat').value = lat;
+   document.getElementById('user_long').value = lng;
+}
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyDuDYtFvu387QEwoPA4cLzn3-nXhQxgFB4&callback=initialize"></script>
