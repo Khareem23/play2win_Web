@@ -5,8 +5,8 @@ var transport = nodemailer.createTransport({
     host: 'mail.jenifagames.com',
     port: 465,
     auth: {
-        user: 'dev@jenifagames.com',
-        pass: '4?fH$Ns[YW7e'
+        user: 'ommziteamlead08@gmail.com',
+        pass: 'Murphy@08033978357'
     }
 });
 

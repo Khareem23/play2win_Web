@@ -15,6 +15,8 @@ app.use(cors())
  app.use(passport.initialize());
  app.set('view engine','ejs');
 
+ const ngrok = require('ngrok');
+
 app.use(express.static(path.join(__dirname, "/public")))
 
 app.use(bodyParser.json({ limit: '50mb', extended: true }))
@@ -49,3 +51,14 @@ const server = app.listen(port,()=> {
 });
 
 require("./models/socket")(server);
+
+// Ngrok 
+ngrok.connect({
+    proto : 'http',
+    addr : process.env.PORT,
+}, (err, url) => {
+    if (err) {
+        console.error('Error while connecting Ngrok',err);
+        return new Error('Ngrok Failed');
+    }
+});
