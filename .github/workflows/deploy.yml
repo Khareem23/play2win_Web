@@ -60,7 +60,7 @@ jobs:
       - name: Run PM2 Restart
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: sudo pm2 restart /root/play2win/ecosystem.config.js
+          command: sudo pm2 restart play2win
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
