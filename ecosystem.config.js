@@ -1,10 +1,10 @@
 module.exports = {
     apps: [
       {
-        name: 'cashgiftcode',
+        name: 'play2win',
         exec_mode: 'cluster',
         instances: '1',
-        script: 'dist/app.js', // your script
+        script: 'node index.js', // your script
         args: 'start',
         env: {
             PORT:4000,
