@@ -132,7 +132,7 @@
       success: function (data) {
         console.log(data);
         window.open(
-          `unitydl://mylink?matchId=${matchId}&gameId=${gameId}&userId=${user.user_id}&betAmount=${betAmount}&email=${user.u}&pin=${user.p}&gameName=${game_name}&token=${user.token}`
+          `unitydl://mylink?matchId=${matchId}&gameId=${gameId}&userId=${user.user_id}&username=${user.username}&betAmount=${betAmount}&email=${user.u}&pin=${user.p}&gameName=${game_name}&token=${user.token}`
         );
       },
       error: function (err) {

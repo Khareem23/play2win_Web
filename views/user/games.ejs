@@ -235,9 +235,9 @@
             $(".frndId").addClass("hidden");
             $(".modal-body").css("min-height", "150px");
             $("#radio_1").prop("checked", true);
-            console.log(`matchId=${data.matchId}&gameId=${gameid}&userId=${user.user_id}&betAmount=${amount}&email=${user.u}&pin=${user.p}&gameName=${gamename}&token=${user.token}`)
+            console.log(`matchId=${data.matchId}&gameId=${gameid}&userId=${user.user_id}&username=${user.username}&betAmount=${amount}&email=${user.u}&pin=${user.p}&gameName=${gamename}&token=${user.token}`)
             window.open(
-              `unitydl://mylink?matchId=${data.matchId}&gameId=${gameid}&userId=${user.user_id}&betAmount=${amount}&email=${user.u}&pin=${user.p}&gameName=${gamename}&token=${user.token}`
+              `unitydl://mylink?matchId=${data.matchId}&gameId=${gameid}&userId=${user.user_id}&username=${user.username}&betAmount=${amount}&email=${user.u}&pin=${user.p}&gameName=${gamename}&token=${user.token}`
             );
           } else {
             $.notify(data.message, "error");
@@ -260,7 +260,7 @@
       $(".modal-body").css("min-height", "150px");
       $("#radio_1").prop("checked", true);
       window.open(
-        `unitydl://mylink?matchId=null&gameId=${gameid}&userId=${user.user_id}&betAmount=${amount}&email=${user.u}&pin=${user.p}&gameName=${gamename}&token=${user.token}`
+        `unitydl://mylink?matchId=null&gameId=${gameid}&userId=${user.user_id}&username=${user.username}&betAmount=${amount}&email=${user.u}&pin=${user.p}&gameName=${gamename}&token=${user.token}`
       );
     }
   };
