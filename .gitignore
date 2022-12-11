@@ -2,3 +2,5 @@
 /dist
 .env
 ecosystem.config.js
+/public
+/Updated files
