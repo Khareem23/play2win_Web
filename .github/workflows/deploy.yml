@@ -1,0 +1,68 @@
+name: Owolyte VPS Pipeline
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    #defaults:
+      #run:
+        #working-directory: ./app
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+        #node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Displaying All assetts 
+        working-directory: ${{ github.workspace }}
+        run: |
+            echo ${{ github.workspace }}
+            ls -la
+          
+      - name: SSH and Copy App to Remote Server 
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local : /home/runner/work/play2win_Web/play2win_Web
+          remote : /root/play2win
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+      
+      
+ 
+      - name: Run SSH Multiple Command & Move to Project Directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST  }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password:  ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            pwd 
+            cd /root/play2win
+            sudo npm install 
+     
+      - name: Run PM2 Restart
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: sudo pm2 restart /root/play2win/ecosystem.config.js
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: whoami
